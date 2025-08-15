@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incident Improv</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(180deg, #15202b 0%, #1a2734 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            border-bottom: 1px solid #38444d;
+        }
+        
+        .header-credit {
+            margin-top: 16px;
+            font-size: 0.9em;
+            color: #8b98a5;
+        }
+        
+        .header-credit a {
+            color: #1da1f2;
+            text-decoration: none;
+        }
+        
+        .header-credit a:hover {
+            text-decoration: underline;
+        }
+        
+        .title {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #1da1f2;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: #8b98a5;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+        
+        /* Current Scenario Display */
+        .current-scenario-section {
+            max-width: 700px;
+            margin: 0 auto 50px;
+        }
+        
+        .scenario-tweet {
+            background: #192734;
+            border: 1px solid #38444d;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 30px;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .scenario-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .scenario-meta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .difficulty-tag {
+            background: #1da1f2;
+            color: #ffffff;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .difficulty-beginner { background: #1d9bf0; }
+        .difficulty-intermediate { background: #f7931e; }
+        .difficulty-advanced { background: #f91880; }
+        
+        .category-tag {
+            color: #8b98a5;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        
+        .scenario-number-display {
+            color: #8b98a5;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        
+        .scenario-content {
+            font-size: 1.08em;
+            margin-bottom: 24px;
+            color: #ffffff;
+            line-height: 1.7;
+        }
+        
+        .scenario-question {
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #e7e9ea;
+            font-size: 1.05em;
+        }
+        
+        .options-container {
+            margin-bottom: 20px;
+        }
+        
+        .option {
+            background: #0f1419;
+            border: 1px solid #38444d;
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.95em;
+        }
+        
+        .option:hover {
+            border-color: #1da1f2;
+            background: #16202a;
+            transform: translateX(3px);
+        }
+        
+        .option.selected {
+            border-color: #1da1f2;
+            background: #1e2732;
+            box-shadow: 0 0 0 2px rgba(29, 161, 242, 0.2);
+        }
+        
+        .option-letter {
+            color: #1da1f2;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        
+        .real-world-section {
+            background: #0f1419;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 24px;
+        }
+        
+        .real-world-label {
+            color: #1da1f2;
+            font-weight: 600;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+        
+        .real-world-text {
+            color: #8b98a5;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .real-world-link {
+            color: #1da1f2;
+            text-decoration: none;
+            margin-left: 8px;
+        }
+        
+        .real-world-link:hover {
+            text-decoration: underline;
+        }
+        
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .new-scenario-btn {
+            background: #1da1f2;
+            color: #ffffff;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 24px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .new-scenario-btn:hover {
+            background: #1a91da;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(29, 161, 242, 0.3);
+        }
+        
+        /* Category Filter Grid */
+        .category-filters {
+            margin: 40px 0;
+            padding: 30px 0;
+            border-top: 2px solid #38444d;
+            border-bottom: 2px solid #38444d;
+        }
+        
+        .category-filters-title {
+            text-align: center;
+            color: #1da1f2;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .category-filter-btn {
+            background: #192734;
+            border: 1px solid #38444d;
+            border-radius: 12px;
+            padding: 12px 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            font-size: 0.85em;
+            color: #e7e9ea;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            min-height: 70px;
+            justify-content: center;
+        }
+        
+        .category-filter-btn:hover {
+            background: #1e2732;
+            border-color: #1da1f2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(29, 161, 242, 0.2);
+        }
+        
+        .category-filter-btn.active {
+            background: #1da1f2;
+            border-color: #1da1f2;
+            color: #ffffff;
+        }
+        
+        .category-filter-btn.all-categories {
+            background: #0f1419;
+            border: 2px solid #1da1f2;
+        }
+        
+        .category-icon {
+            font-size: 1.5em;
+        }
+        
+        .category-name {
+            font-weight: 500;
+            line-height: 1.2;
+        }
+        
+        .category-count {
+            font-size: 0.75em;
+            color: #8b98a5;
+            margin-top: 2px;
+        }
+        
+        .category-filter-btn.active .category-count {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* Search */
+        .search-container {
+            margin: 30px 0;
+            position: relative;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 14px 20px;
+            background: #192734;
+            border: 1px solid #38444d;
+            border-radius: 24px;
+            color: #ffffff;
+            font-size: 1em;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+        
+        .search-input:focus {
+            border-color: #1da1f2;
+            background: #1e2732;
+            box-shadow: 0 0 0 3px rgba(29, 161, 242, 0.1);
+        }
+        
+        .search-input::placeholder {
+            color: #8b98a5;
+        }
+        
+        /* Scenarios Grid */
+        .scenarios-section {
+            margin-top: 50px;
+            padding-top: 30px;
+        }
+        
+        .scenarios-section-title {
+            color: #1da1f2;
+            font-size: 1.6em;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .scenarios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .scenario-card {
+            background: #192734;
+            border: 1px solid #38444d;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .scenario-card:hover {
+            border-color: #1da1f2;
+            background: #1e2732;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(29, 161, 242, 0.2);
+        }
+        
+        .scenario-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        
+        .scenario-card-meta {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .scenario-number {
+            color: #8b98a5;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        
+        .scenario-card-difficulty {
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 0.7em;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #ffffff;
+        }
+        
+        .scenario-card-category {
+            font-size: 0.75em;
+            color: #8b98a5;
+            margin-bottom: 8px;
+        }
+        
+        .scenario-preview {
+            color: #e7e9ea;
+            font-size: 0.95em;
+            line-height: 1.5;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            flex-grow: 1;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #8b98a5;
+            font-size: 1.1em;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #8b98a5;
+            font-size: 1.1em;
+        }
+        
+        .error {
+            background: #f91880;
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px 0;
+            border-top: 1px solid #38444d;
+            color: #6b7785;
+            font-size: 0.85em;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .category-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 8px;
+            }
+            
+            .category-filter-btn {
+                font-size: 0.75em;
+                padding: 10px 6px;
+                min-height: 60px;
+            }
+            
+            .category-icon {
+                font-size: 1.2em;
+            }
+            
+            .scenarios-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            
+            .title {
+                font-size: 2em;
+            }
+            
+            .subtitle {
+                font-size: 1em;
+            }
+            
+            .scenario-tweet {
+                padding: 20px;
+            }
+            
+            .scenario-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .search-input {
+                font-size: 16px;
+            }
+            
+            .category-count {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="title">🎭 Incident Improv</div>
+            <div class="subtitle">Interactive cybersecurity scenarios for incident response training</div>
+            <div class="header-credit">Made with ❤️ by <a href="https://adversis.io" target="_blank">Adversis</a></div>
+        </div>
+        
+        <div class="current-scenario-section">
+            <div id="scenario-container">
+                <div class="loading">Loading scenarios...</div>
+            </div>
+            
+            <div class="controls">
+                <button class="new-scenario-btn" onclick="loadRandomScenario()">
+                    🎲 Random Scenario
+                </button>
+            </div>
+        </div>
+        
+        <div class="category-filters">
+            <h2 class="category-filters-title">🏷️ Filter by Category</h2>
+            <div class="category-grid" id="category-filters">
+                <!-- Category filter buttons will be loaded here -->
+            </div>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" 
+                   class="search-input" 
+                   id="searchInput"
+                   placeholder="🔍 Search scenarios by keyword..."
+                   onkeyup="filterScenarios()">
+        </div>
+        
+        <div class="scenarios-section">
+            <h2 class="scenarios-section-title" id="scenarios-title">📚 All Scenarios</h2>
+            <div class="scenarios-grid" id="scenarios-grid">
+                <!-- Scenario cards will be loaded here -->
+            </div>
+        </div>
+        
+        <div class="footer">
+            © 2024 Adversis • Practice makes perfect
+        </div>
+    </div>
+
+    <script src="scenarios.js"></script>
+</body>
+</html>
