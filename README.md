@@ -4,7 +4,7 @@ Interactive cybersecurity incident response training scenarios based on real-wor
 
 ## 🚀 Live Demo
 
-Visit the live application: [https://yourusername.github.io/incident-improv](https://yourusername.github.io/incident-improv)
+Visit the live application: [https://incident-improv.github.io/incident-improv](https://incident-improv.github.io/incident-improv)
 
 ## 📖 About
 
@@ -49,7 +49,7 @@ Incident Improv is an interactive web application that presents cybersecurity pr
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/incident-improv.git
+git clone https://github.com/Incident-Improv/incident-improv.git
 cd incident-improv
 ```
 
@@ -67,7 +67,7 @@ python3 -m http.server 8000
 3. Set Source to "Deploy from a branch"
 4. Select "main" branch and "/ (root)" folder
 5. Save and wait for deployment
-6. Your site will be available at: `https://yourusername.github.io/incident-improv`
+6. Your site will be available at: `https://incident-improv.github.io/incident-improv`
 
 ## 📁 Project Structure
 
@@ -146,7 +146,7 @@ All scenarios are for educational purposes only. They are based on publicly repo
 
 ## 🐛 Issues & Feedback
 
-Found a bug or have a suggestion? Please [open an issue](https://github.com/yourusername/incident-improv/issues).
+Found a bug or have a suggestion? Please [open an issue](https://github.com/Incident-Improv/incident-improv/issues).
 
 ---
 
